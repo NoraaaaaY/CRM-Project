@@ -16,9 +16,9 @@
         <table>
             <thead>
                 <tr>
-                    <th><a href="{{ url_for('sort_customers', field='name') }}">Customer Name</a></th>
-                    <th><a href="{{ url_for('sort_customers', field='store') }}">Store</a></th>
-                    <th><a href="{{ url_for('sort_customers', field='location') }}">Location</a></th>
+                    <th><a href="{{ url_for('home', sort='name', order=sort_order, search=search_query) }}">Customer Name</a></th>
+                    <th><a href="{{ url_for('home', sort='store', order=sort_order, search=search_query) }}">Store</a></th>
+                    <th><a href="{{ url_for('home', sort='location', order=sort_order, search=search_query) }}">Location</a></th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Actions</th>

@@ -1,26 +1,18 @@
 [
     {
-        "name": "aaa",
-        "store": "aaa",
-        "location": "aaa",
-        "email": "bbbfd@5gfc.com",
-        "phone": "7856786",
-        "description": "aaa"
+        "name": "John Doe",
+        "store": "Doe's Emporium",
+        "location": "New York",
+        "email": "johndoe@example.com",
+        "phone": "123-456-7890",
+        "description": "Regular customer with high purchase volume."
     },
     {
-        "name": "bbb",
-        "store": "bbb",
-        "location": "bbb",
-        "email": "bbbfd@5gfc.com",
-        "phone": "bbbb",
-        "description": "bbbbb"
-    },
-    {
-        "name": "abs",
-        "store": "ddd",
-        "location": "gfff",
-        "email": "huaimin.ding@goleadway.com",
-        "phone": "5637465",
-        "description": "sdfg"
+        "name": "Jane Smith",
+        "store": "Smith's Grocery",
+        "location": "Los Angeles",
+        "email": "janesmith@example.com",
+        "phone": "987-654-3210",
+        "description": "Prefers organic products."
     }
 ]
