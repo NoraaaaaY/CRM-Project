@@ -18,7 +18,7 @@ def save_customers(customers):
 
 @app.route('/')
 def home():
-    customers = load_customers()
+    customers = load_customers() 
     search_query = request.args.get('search', '').lower()
     filtered_customers = [
         customer for customer in customers 
