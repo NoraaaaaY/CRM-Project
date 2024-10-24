@@ -12,13 +12,34 @@
         <form method="GET">
             <input type="text" name="search" placeholder="Search Customers" value="{{ search_query }}">
             <button type="submit">Search</button>
-        </form>        
+        </form>
         <table>
             <thead>
                 <tr>
-                    <th><a href="{{ url_for('home', sort='name', order=sort_order, search=search_query) }}">Customer Name</a></th>
-                    <th><a href="{{ url_for('home', sort='store', order=sort_order, search=search_query) }}">Store</a></th>
-                    <th><a href="{{ url_for('home', sort='location', order=sort_order, search=search_query) }}">Location</a></th>
+                    <th>
+                        <a href="{{ url_for('home', sort='name', order='desc' if sort_field == 'name' and sort_order == 'asc' else 'asc', search=search_query) }}">
+                            Customer Name
+                            {% if sort_field == 'name' %}
+                                {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ url_for('home', sort='store', order='desc' if sort_field == 'store' and sort_order == 'asc' else 'asc', search=search_query) }}">
+                            Store
+                            {% if sort_field == 'store' %}
+                                {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ url_for('home', sort='location', order='desc' if sort_field == 'location' and sort_order == 'asc' else 'asc', search=search_query) }}">
+                            Location
+                            {% if sort_field == 'location' %}
+                                {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Actions</th>

@@ -3,35 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Edit Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
         <h1>Edit Customer</h1>
         <form method="POST">
-            {{ form.hidden_tag() }}
             <label for="name">Customer Name:</label>
-            <input type="text" id="name" name="name" value="{{ form.name.data }}" required>
+            <input type="text" id="name" name="name" value="{{ customer['name'] }}" required>
 
             <label for="store">Store:</label>
-            <input type="text" id="store" name="store" value="{{ form.store.data }}" required>
+            <input type="text" id="store" name="store" value="{{ customer['store'] }}" required>
 
             <label for="location">Location:</label>
-            <input type="text" id="location" name="location" value="{{ form.location.data }}" required>
+            <input type="text" id="location" name="location" value="{{ customer['location'] }}" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{ form.email.data }}" required>
+            <input type="email" id="email" name="email" value="{{ customer['email'] }}" required>
 
             <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" value="{{ form.phone.data }}" required>
+            <input type="text" id="phone" name="phone" value="{{ customer['phone'] }}" required>
 
             <label for="description">Description:</label>
-            <textarea id="description" name="description">{{ form.description.data }}</textarea>
+            <textarea id="description" name="description">{{ customer['description'] }}</textarea>
 
             <button type="submit">Save</button>
         </form>
-        <a href="{{ url_for('home') }}">Cancel</a>
+        <a href="{{ url_for('home') }}" class="button">Cancel</a>
     </div>
 </body>
 </html>
