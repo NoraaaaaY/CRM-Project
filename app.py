@@ -1,86 +1,86 @@
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import json
-from flask import Flask, render_template, request, redirect, url_for
+import os
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
-DATA_FILE = 'customers.json'
+# Path to the JSON file
+JSON_FILE = 'customers.json'
 
+# Load customers from the JSON file
 def load_customers():
-    """Load customers from the JSON file."""
-    try:
-        with open(DATA_FILE, 'r') as file:
-            return json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return []
+    if os.path.exists(JSON_FILE):
+        with open(JSON_FILE, 'r') as f:
+            return json.load(f)
+    return []
 
+# Save customers to the JSON file
 def save_customers(customers):
-    """Save customers to the JSON file."""
-    with open(DATA_FILE, 'w') as file:
-        json.dump(customers, file, indent=4)
+    with open(JSON_FILE, 'w') as f:
+        json.dump(customers, f, indent=4)
 
-@app.route('/')
+# Home route
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    """Display the customer list with filtering and sorting options."""
     customers = load_customers()
-    search_query = request.args.get('search', '').lower()
-    sort_field = request.args.get('sort', '')
-    sort_order = request.args.get('order', 'asc')  # Default to ascending order
-
-    # Filter customers based on search query
-    filtered_customers = [
-        customer for customer in customers
-        if search_query in customer['name'].lower() or search_query in customer['store'].lower()
-    ]
-
-    # Sort customers if a sort field is provided
-    if sort_field in ['name', 'store', 'location']:
-        filtered_customers.sort(key=lambda x: x[sort_field].lower(), reverse=(sort_order == 'desc'))
-
-    return render_template('home.html', customers=filtered_customers, search_query=search_query, sort_field=sort_field, sort_order=sort_order)
-
-@app.route('/add_customer', methods=['GET', 'POST'])
-def add_customer():
-    """Add a new customer to the list."""
     if request.method == 'POST':
-        customers = load_customers()
+        search_query = request.form.get('search', '')
+        customers = [c for c in customers if search_query.lower() in c['name'].lower()]
+        return render_template('home.html', customers=customers, search_query=search_query)
+
+    return render_template('home.html', customers=customers)
+
+# Add customer route
+@app.route('/add', methods=['GET', 'POST'])
+def add_customer():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        
         new_customer = {
-            'name': request.form['name'],
-            'store': request.form['store'],
-            'location': request.form['location'],
-            'email': request.form['email'],
-            'phone': request.form['phone'],
-            'description': request.form['description']
+            'id': len(load_customers()) + 1,  # Assign an ID
+            'name': name,
+            'email': email,
+            'phone': phone
         }
+
+        customers = load_customers()
         customers.append(new_customer)
         save_customers(customers)
-        return redirect(url_for('home'))
-    return render_template('add_customer.html')
 
-@app.route('/edit_customer/<int:index>', methods=['GET', 'POST'])
-def edit_customer(index):
-    """Edit an existing customer's details."""
-    customers = load_customers()
-    if request.method == 'POST':
-        updated_customer = {
-            'name': request.form['name'],
-            'store': request.form['store'],
-            'location': request.form['location'],
-            'email': request.form['email'],
-            'phone': request.form['phone'],
-            'description': request.form['description']
-        }
-        customers[index] = updated_customer
-        save_customers(customers)
+        flash('Customer added successfully!')
         return redirect(url_for('home'))
-    customer = customers[index]
+
+    return render_template('customer.html')
+
+# Edit customer route
+@app.route('/edit/<int:customer_id>', methods=['GET', 'POST'])
+def edit_customer(customer_id):
+    customers = load_customers()
+    customer = next((c for c in customers if c['id'] == customer_id), None)
+
+    if request.method == 'POST':
+        customer['name'] = request.form['name']
+        customer['email'] = request.form['email']
+        customer['phone'] = request.form['phone']
+
+        save_customers(customers)
+
+        flash('Customer updated successfully!')
+        return redirect(url_for('home'))
+
     return render_template('edit_customer.html', customer=customer)
 
-@app.route('/delete_customer/<int:index>', methods=['POST'])
-def delete_customer(index):
-    """Delete a customer from the list."""
+# Delete customer route
+@app.route('/delete/<int:customer_id>', methods=['POST'])
+def delete_customer(customer_id):
     customers = load_customers()
-    customers.pop(index)
+    customers = [c for c in customers if c['id'] != customer_id]
     save_customers(customers)
+
+    flash('Customer deleted successfully!')
     return redirect(url_for('home'))
 
 if __name__ == '__main__':

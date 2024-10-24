@@ -3,43 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Customer Relationship Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Customer Management</title>
 </head>
 <body>
     <div class="container">
-        <h1>Customer List</h1>
-        <form method="GET">
-            <input type="text" name="search" placeholder="Search Customers" value="{{ search_query }}">
+        <h1>Customer Management</h1>
+        <form method="POST" class="search-form">
+            <input type="text" name="search" placeholder="Search customers..." value="{{ search_query }}">
             <button type="submit">Search</button>
         </form>
+        <a href="{{ url_for('add_customer') }}" class="button">Add Customer</a>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
         <table>
             <thead>
                 <tr>
-                    <th>
-                        <a href="{{ url_for('home', sort='name', order='desc' if sort_field == 'name' and sort_order == 'asc' else 'asc', search=search_query) }}">
-                            Customer Name
-                            {% if sort_field == 'name' %}
-                                {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
-                            {% endif %}
-                        </a>
-                    </th>
-                    <th>
-                        <a href="{{ url_for('home', sort='store', order='desc' if sort_field == 'store' and sort_order == 'asc' else 'asc', search=search_query) }}">
-                            Store
-                            {% if sort_field == 'store' %}
-                                {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
-                            {% endif %}
-                        </a>
-                    </th>
-                    <th>
-                        <a href="{{ url_for('home', sort='location', order='desc' if sort_field == 'location' and sort_order == 'asc' else 'asc', search=search_query) }}">
-                            Location
-                            {% if sort_field == 'location' %}
-                                {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
-                            {% endif %}
-                        </a>
-                    </th>
+                    <th>Customer Name</th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Actions</th>
@@ -48,21 +37,18 @@
             <tbody>
                 {% for customer in customers %}
                 <tr>
-                    <td><a href="{{ url_for('edit_customer', index=loop.index0) }}">{{ customer['name'] }}</a></td>
-                    <td>{{ customer['store'] }}</td>
-                    <td>{{ customer['location'] }}</td>
-                    <td>{{ customer['email'] }}</td>
-                    <td>{{ customer['phone'] }}</td>
+                    <td><a href="{{ url_for('edit_customer', customer_id=customer.id) }}">{{ customer.name }}</a></td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.phone }}</td>
                     <td>
-                        <form action="{{ url_for('delete_customer', index=loop.index0) }}" method="POST" style="display:inline;">
-                            <button type="submit">Delete</button>
+                        <form action="{{ url_for('delete_customer', customer_id=customer.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="delete-button">Delete</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{{ url_for('add_customer') }}" class="button">Add Customer</a>
     </div>
 </body>
 </html>

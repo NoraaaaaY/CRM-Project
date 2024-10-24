@@ -1,18 +1,42 @@
 [
     {
         "name": "John Doe",
-        "store": "Doe's Emporium",
-        "location": "New York",
-        "email": "johndoe@example.com",
+        "store": "John's Groceries",
+        "location": "New York, NY",
+        "email": "john.doe@example.com",
         "phone": "123-456-7890",
-        "description": "Regular customer with high purchase volume."
+        "description": "A loyal customer who visits weekly."
     },
     {
         "name": "Jane Smith",
-        "store": "Smith's Grocery",
-        "location": "Los Angeles",
-        "email": "janesmith@example.com",
-        "phone": "987-654-3210",
-        "description": "Prefers organic products."
+        "store": "Smith's Bakery",
+        "location": "Los Angeles, CA",
+        "email": "jane.smith@example.com",
+        "phone": "098-765-4321",
+        "description": "Prefers gluten-free products."
+    },
+    {
+        "name": "Emily Johnson",
+        "store": "Johnson's Clothing",
+        "location": "Chicago, IL",
+        "email": "emily.johnson@example.com",
+        "phone": "555-123-4567",
+        "description": "Interested in seasonal sales."
+    },
+    {
+        "name": "Michael Brown",
+        "store": "Brown's Electronics",
+        "location": "Houston, TX",
+        "email": "michael.brown@example.com",
+        "phone": "444-987-6543",
+        "description": "Loves the latest gadgets."
+    },
+    {
+        "name": "Sarah Davis",
+        "store": "Davis's Bookstore",
+        "location": "Phoenix, AZ",
+        "email": "sarah.davis@example.com",
+        "phone": "333-246-8101",
+        "description": "Enjoys mystery novels."
     }
 ]
